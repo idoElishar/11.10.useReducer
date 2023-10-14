@@ -11,9 +11,9 @@ type Item = {
 
 
 const items: Item[] = [
-    { id: 1, name: 'Laptop', price: 1200,quantity:0 },
-    { id: 2, name: 'Phone', price: 800 ,quantity:0 },
-    { id: 3, name: 'Tablet', price: 400 ,quantity:0},
+    { id: 1, name: 'Laptop', price: 1200, quantity: 0 },
+    { id: 2, name: 'Phone', price: 800, quantity: 0 },
+    { id: 3, name: 'Tablet', price: 400, quantity: 0 },
 ];
 
 const initialState: Item[] = [];
@@ -29,13 +29,13 @@ const reducer = (currentState: Item[], action: any) => {
         case "increment":
             return currentState.map((item) => {
                 if (item.id === action.itemId) {
-                    return { ...item, quantity: (item.quantity ) + 1 };
+                    return { ...item, quantity: (item.quantity) + 1 };
                 }
                 return item;
             });
         case "decrement":
             return currentState.map((item) => {
-                if (item.id === action.itemId && item.quantity>0) {
+                if (item.id === action.itemId && item.quantity > 0) {
                     return { ...item, quantity: item.quantity - 1 };
                 }
                 return item;
@@ -66,7 +66,12 @@ const ShoppingCart = () => {
     const decrementQuantity = (itemId: number) => {
         dispatch({ type: "decrement", itemId });
     };
-
+    function add(item: any) {
+        const itemInCart = cart.find((cartItem) => cartItem.id === item.id)
+        if (!itemInCart) {
+            addItemToCart(item);
+        }
+    }
     return (
         <div>
             <h2>Shopping Cart</h2>
@@ -74,7 +79,7 @@ const ShoppingCart = () => {
                 {items.map((item) => (
                     <li key={item.id}>
                         {item.name} - ${item.price}
-                        <button onClick={() => addItemToCart(item)}>Add to Cart</button>
+                        <button onClick={() => add(item)}>Add to Cart</button>
                     </li>
                 ))}
             </ul>
